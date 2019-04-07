@@ -5,8 +5,12 @@ USER root
 COPY murmur.ini /etc/murmur.tpl
 COPY init.sh /usr/bin/init.sh
 
-RUN apk upgrade --update-cache --available && \
-apk --no-cache add murmur
+ENV MURMUR_ALPINE_VERSION 1.2.19-r9
+
+RUN apk add --no-cache \
+		murmur>="$MURMUR_ALPINE_VERSION" \
+		qt-mysql \
+	;
 
 RUN addgroup mumble && \
 adduser -h /home/mumble -s /sbin/nologin -D -G mumble mumble && \
